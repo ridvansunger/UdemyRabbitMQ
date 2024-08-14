@@ -11,12 +11,21 @@ using var connection = factory.CreateConnection();
 //rabbit mq ye kanal üzerinden bağlanıyorum.
 var channel = connection.CreateModel();
 
+
+
 channel.BasicQos(0, 1, false);
 var consumer = new EventingBasicConsumer(channel);
 
-var queueName = "direkt-queuCritical";
+var queueName = channel.QueueDeclare().QueueName;
+//var routeKey = "*.Error.*";
+//var routeKey = "*.*.Warning";
+var routeKey = "Info.#";//başı ifo olsun devamı önemli değil.
+
+channel.QueueBind(queueName, "logs-topic", routeKey);
 
 channel.BasicConsume(queueName, false, consumer);
+
+Console.WriteLine("Loglar dinleniyor...");
 
 consumer.Received += (object sender, BasicDeliverEventArgs e) =>
 {
