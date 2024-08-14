@@ -23,7 +23,24 @@ var channel = connection.CreateModel();
 //BasicQos(hernagi bir boyuttaki mesaj(mesaj boyutu),mesaj kaç kaz gitsin, global olursa (false seçersek toplam mesaj sayısını subsriberler eşit olarak dağıtmaya çalışır.false seçiğim için 6 ar şekilde subcriberlara gönderecek.) )
 channel.BasicQos(0, 1, false);
 var consumer = new EventingBasicConsumer(channel);
-channel.BasicConsume("hello-queue", false, consumer);
+//channel.BasicConsume("hello-queue", false, consumer);
+
+//channel.ExchangeDeclare("logs-fanout", durable: true, type: ExchangeType.Fanout);
+
+
+
+var randomQueueName = "log-database-save";//channel.QueueDeclare().QueueName;
+
+
+//kuyruğu kalıcı hale getirme
+channel.QueueDeclare(randomQueueName, true, false, false);
+
+channel.QueueBind(randomQueueName, "logs-fanout", "", null);//uygulama her çalıştığında kuyrul oluşur kapandığında kuyruk uçar.
+
+channel.BasicConsume(randomQueueName, false, consumer);
+
+Console.WriteLine("Loglar dinleniyor.");
+
 
 consumer.Received += (object sender, BasicDeliverEventArgs e) =>
 {

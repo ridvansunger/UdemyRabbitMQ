@@ -19,8 +19,13 @@ var channel = connection.CreateModel();
 //exclusive => kuyruğa sadece bu kanal üzerinden bağlantı sağlar true dersek. Ama sunccriber üzerinden bağlanılsık istiyoruz. Bu nedenle false yaptık. Farklı kanallar üzerinden bağlanılması için false.
 //autoDelete => subsriber down olursa kuyrulta silinir ondan dolayı false yaptık otomatik olarak silinmesin.
 
+///Fanout için gereky yok. Consumer tanımlaması gerekir queu yi.
+//channel.QueueDeclare("hello-queue", true, false, false);
 
-channel.QueueDeclare("hello-queue", true, false, false);
+//Echange tipini deklere ettik.
+channel.ExchangeDeclare("logs-fanout",durable:true,type:ExchangeType.Fanout);
+
+
 
 
 Enumerable.Range(1, 50).ToList().ForEach(x =>
@@ -29,7 +34,7 @@ Enumerable.Range(1, 50).ToList().ForEach(x =>
     //byte veri tipinde gödnerilir.
     var messageBody = Encoding.UTF8.GetBytes(message);
 
-    channel.BasicPublish(string.Empty, "hello-queue", null, messageBody);
+    channel.BasicPublish("logs-fanout", "", null, messageBody);
 
 
     Console.WriteLine($"Mesaj gönderilmiştir . {x}");
