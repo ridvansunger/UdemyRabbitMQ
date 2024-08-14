@@ -11,25 +11,21 @@ using var connection = factory.CreateConnection();
 //rabbit mq ye kanal üzerinden bağlanıyorum.
 var channel = connection.CreateModel();
 
-//bu kodu yazarsan  bu kuyruk oluşmamaışsa kod hata vermez. Kuyuruk oluşumundan eminsen kullanmana gerek yok.
-//channel.QueueDeclare("hello-queue", true, false, false);//parametreler aynı olmalı.
-
-//BasicConsume ()
-//consumer tarafı
-//autoAck => true ise mesaj iletildikten sonra kuyruktan direk olarak siler. False ise kuyruktan silme ben sana haber verince sil.
-//IBasicConsumer
-
-
-//BasicQos(hernagi bir boyuttaki mesaj(mesaj boyutu),mesaj kaç kaz gitsin, global olursa (false seçersek toplam mesaj sayısını subsriberler eşit olarak dağıtmaya çalışır.false seçiğim için 6 ar şekilde subcriberlara gönderecek.) )
 channel.BasicQos(0, 1, false);
 var consumer = new EventingBasicConsumer(channel);
-channel.BasicConsume("hello-queue", false, consumer);
+
+var queueName = "direkt-queuCritical";
+
+channel.BasicConsume(queueName, false, consumer);
 
 consumer.Received += (object sender, BasicDeliverEventArgs e) =>
 {
     var message = Encoding.UTF8.GetString(e.Body.ToArray());
 
+    Thread.Sleep(1500);
     Console.WriteLine("Gelen mesaj " + message);
+
+    //File.AppendAllText("log-critical.txt", message + "\n");
 
     channel.BasicAck(e.DeliveryTag, false);//ilgili mesajı bildirir.
 };
