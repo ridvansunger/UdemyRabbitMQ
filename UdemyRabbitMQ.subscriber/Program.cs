@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Reflection.PortableExecutable;
 using System.Text;
 
 var factory = new ConnectionFactory();
@@ -11,17 +12,20 @@ using var connection = factory.CreateConnection();
 //rabbit mq ye kanal üzerinden bağlanıyorum.
 var channel = connection.CreateModel();
 
-
+channel.ExchangeDeclare("header-exhange", durable: true, type: ExchangeType.Headers);
 
 channel.BasicQos(0, 1, false);
 var consumer = new EventingBasicConsumer(channel);
 
 var queueName = channel.QueueDeclare().QueueName;
-//var routeKey = "*.Error.*";
-//var routeKey = "*.*.Warning";
-var routeKey = "Info.#";//başı ifo olsun devamı önemli değil.
 
-channel.QueueBind(queueName, "logs-topic", routeKey);
+Dictionary<string,object> headers=new Dictionary<string, object>();
+
+headers.Add("format", "pdf");
+headers.Add("shape", "a4");
+headers.Add("x-match", "any");//all dersek her bir key value çiftinin aynı olması gerekir.
+
+channel.QueueBind(queueName, exchange: "header-exhange",string.Empty,headers);
 
 channel.BasicConsume(queueName, false, consumer);
 
@@ -34,7 +38,7 @@ consumer.Received += (object sender, BasicDeliverEventArgs e) =>
     Thread.Sleep(1500);
     Console.WriteLine("Gelen mesaj " + message);
 
-    //File.AppendAllText("log-critical.txt", message + "\n");
+ 
 
     channel.BasicAck(e.DeliveryTag, false);//ilgili mesajı bildirir.
 };
