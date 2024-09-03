@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyRabbitMQ.publisher", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UdemyRabbitMQ.subscriber", "UdemyRabbitMQ.subscriber\UdemyRabbitMQ.subscriber.csproj", "{5DE5DB89-E6C7-45A3-BBB2-8DDDD6AFD0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{57040373-FB4E-4C45-A26A-4C9BF7B52EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{57040373-FB4E-4C45-A26A-4C9BF7B52EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdemyRabbitMQWeb.Watermark", "UdemyRabbitMQWeb.Watermark\UdemyRabbitMQWeb.Watermark.csproj", "{90BFCF81-EF3C-4E07-B2E3-D95FC6C41AB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{57040373-FB4E-4C45-A26A-4C9BF7B52EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57040373-FB4E-4C45-A26A-4C9BF7B52EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57040373-FB4E-4C45-A26A-4C9BF7B52EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90BFCF81-EF3C-4E07-B2E3-D95FC6C41AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90BFCF81-EF3C-4E07-B2E3-D95FC6C41AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90BFCF81-EF3C-4E07-B2E3-D95FC6C41AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90BFCF81-EF3C-4E07-B2E3-D95FC6C41AB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
