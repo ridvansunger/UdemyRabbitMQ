@@ -17,7 +17,7 @@ namespace UdemyRabbitMQWeb.Watermark.Services
         {
             _connectionFactory = connectionFactory;
             _logger = logger;
-            Connect();
+          
         }
 
         public IModel Connect()
