@@ -14,7 +14,7 @@ namespace UdemyRabbitMQWeb.Watermark.Services
         }
 
 
-        public void Publish(ProductImageCreatedEvent productImageCreatedEvent)
+        public void Publish(productImageCreatedEvent productImageCreatedEvent)
         {
             var channel = _rabbitmqClientService.Connect();
 
