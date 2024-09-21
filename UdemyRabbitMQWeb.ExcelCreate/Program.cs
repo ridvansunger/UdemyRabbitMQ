@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
+using UdemyRabbitMQWeb.ExcelCreate.Hubs;
 using UdemyRabbitMQWeb.ExcelCreate.Models;
 using UdemyRabbitMQWeb.ExcelCreate.Services;
 
@@ -26,6 +27,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
     opt.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.AddSignalR();
 
 
 // Add services to the container.
@@ -53,6 +55,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers();
+
+app.MapHub<MyHub>("/Myhub");
+    
 
 //Data seed ettik.
 using (var scope = app.Services.CreateScope())
